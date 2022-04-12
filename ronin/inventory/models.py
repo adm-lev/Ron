@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -11,7 +12,7 @@ class Account(models.Model):
         verbose_name = 'Учетные записи'
         verbose_name_plural = 'Учетные записи'
 
-    login = models.CharField(max_length=100, help_text='Введите логин', verbose_name='Логин')
+    login = models.CharField(max_length=100, help_text='Введите логин', verbose_name='Логин', unique=True)
     first_name = models.CharField(max_length=100, help_text="Введите имя", verbose_name="Имя")
     last_name = models.CharField(max_length=100, help_text="Введите фамилию", verbose_name="Фамилия",)
     third_name = models.CharField(max_length=100, help_text="Введите отчество",
@@ -53,12 +54,15 @@ class Workstation(models.Model):
         verbose_name = 'Рабочие станции'
         verbose_name_plural = 'Рабочие станции'
 
-    hostname = models.CharField(max_length=100, help_text="Введите имя ПК", verbose_name="Имя ПК")
-    cpu = models.CharField(max_length=100, help_text="Введите модель процессора", verbose_name="Процессор")
-    ram = models.CharField(max_length=100, help_text="Введите модель памяти", verbose_name="ОЗУ")
+    hostname = models.CharField(max_length=100, help_text="Введите имя ПК", verbose_name="Имя ПК", unique=True)
+    cpu = models.CharField(max_length=100, help_text="Введите модель процессора", verbose_name="Процессор",
+                           null=True, blank=True)
+    ram = models.CharField(max_length=100, help_text="Введите модель памяти", verbose_name="ОЗУ",
+                           null=True, blank=True)
     motherboard = models.CharField(max_length=100, help_text="Введите модель платы",
-                                   verbose_name="Материнская плата")
-    storage = models.CharField(max_length=100, help_text="Введите модель накопителя", verbose_name="Накопитель")
+                                   verbose_name="Материнская плата", null=True, blank=True)
+    storage = models.CharField(max_length=100, help_text="Введите модель накопителя", verbose_name="Накопитель",
+                               null=True, blank=True)
     # software = models.ManyToManyField('Software', help_text="Добавьте программу",
     #                                   verbose_name="Программное обеспечение")
     # software = models.ForeignKey('Software', on_delete=models.PROTECT, null=True, blank=True)
@@ -67,6 +71,27 @@ class Workstation(models.Model):
 
     def __str__(self):
         return self.hostname
+
+
+class Certificate(models.Model):
+
+    class Meta:
+        db_table = 'Certificate'
+        verbose_name = 'Сертификаты'
+        verbose_name_plural = 'Сертификаты'
+
+    owner = models.CharField(max_length=50, help_text="Введите имя владельца", verbose_name="Владелец",
+                             null=False, blank=False)
+    ver_center = models.CharField(max_length=50, help_text="Введите название удостоверяющего центра",
+                                  verbose_name="Удостоверяющий центр")
+    release_date = models.DateField(help_text="Введите дату начала сертииката",
+                                    verbose_name="Дата начала срока действия",)
+    ending_date = models.DateField(help_text="Введите дату окончания", verbose_name="Дата окончания",)
+    sign = models.CharField(max_length=100, help_text="Введите отпечаток", verbose_name="Отпечаток сертификата",
+                            null=True, blank=True)
+
+    def __str__(self):
+        return '%s %s' % (self.owner, self.ending_date)
 
 
 class Installed(models.Model):
@@ -83,6 +108,7 @@ class Installed(models.Model):
                                verbose_name="Нужен сертификат", default=False)
     cert_info = models.TextField(max_length=1000, help_text="Укажите данные о сертификате ЭП",
                                  verbose_name="Сертификат ЭП")
+    cetrificate = models.ForeignKey('Certificate', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return '%s %s' % (self.software, self.workstation)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Account, Workstation, Software, Installed
+from .models import Account, Workstation, Software, Installed, Certificate
 
 # Register your models here.
 
@@ -18,10 +18,14 @@ admin.site.register(Account)
 # admin.site.register(Installed)
 
 
+@admin.register(Certificate)
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'release_date', 'ending_date')
+
+
 @admin.register(Workstation)
 class WorkstationAdmin(admin.ModelAdmin):
     list_display = ('hostname', 'user')
-    # list_filter = ('genre', 'author')
     inlines = [InstalledInline]
 
 
