@@ -1,0 +1,18 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<p>Логин: {{ account.login }}</p>
+<h3>ФИО: {{ account.last_name }} {{ account.first_name }} {{ account.third_name }}</h3>
+<p>Телефон: {{ account.telephone }}</p>
+<p>Электронная почта: {{ account.main_email }}</p>
+<p>Второй почтовый ящик: {{ account.second_email }}</p>
+<p>Отдел: {{ account.departament }}</p>
+
+<div>
+    {% for pc in account.workstation_set.all %}
+    <hr><p>
+    {{ pc.hostname }}
+</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<p>Имя ПК: {{ workstation.hostname }}</p>
+<p>Имя пользователя: {{ workstation.user }}</p>
+<h4>Аппаратные характеристики</h4>
+<p>ЦПУ: {{ workstation.cpu }}</p>
+<p>ОЗУ: {{ workstation.ram }}</p>
+<p>Материнская плата: {{ workstation.motherboard }}</p>
+<p>Жесткий диск: {{ workstation.storage }}</p>
+{% endblock %}

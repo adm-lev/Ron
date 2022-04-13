@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>Список программного обеспечения</h1>
+    {% if software_list %}
+    <ul>
+        {% for software in software_list %}
+        <li>
+            <a href="{{ software.get_absolute_url }}">
+                {{ software.name }}
+             </a>
+                {{ software.version }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>В списке ПО пусто :-(</p>
+    {% endif %}
+{% endblock %}

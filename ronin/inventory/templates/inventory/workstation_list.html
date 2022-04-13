@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>Список рабочих ПК</h1>
+    {% if workstation_list %}
+    <ul>
+        {% for workstation in workstation_list %}
+        <li>
+            <a href="{{ workstation.get_absolute_url }}">
+                {{ workstation.hostname }}
+             </a>
+                {{ workstation.user }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Ни одного ПК</p>
+    {% endif %}
+{% endblock %}

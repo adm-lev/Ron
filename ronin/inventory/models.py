@@ -29,6 +29,9 @@ class Account(models.Model):
     def __str__(self):
         return self.login
 
+    def get_absolute_url(self):
+        return reverse('account-detail', args=[str(self.id)])
+
 
 class Software(models.Model):
 
@@ -45,6 +48,9 @@ class Software(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.name, self.version)
+
+    def get_absolute_url(self):
+        return reverse('software-detail', args=[str(self.id)])
 
 
 class Workstation(models.Model):
@@ -63,14 +69,14 @@ class Workstation(models.Model):
                                    verbose_name="Материнская плата", null=True, blank=True)
     storage = models.CharField(max_length=100, help_text="Введите модель накопителя", verbose_name="Накопитель",
                                null=True, blank=True)
-    # software = models.ManyToManyField('Software', help_text="Добавьте программу",
-    #                                   verbose_name="Программное обеспечение")
-    # software = models.ForeignKey('Software', on_delete=models.PROTECT, null=True, blank=True)
     user = models.ForeignKey('Account',  on_delete=models.PROTECT, help_text="Добавьте пользователя",
                              verbose_name="Пользователь", blank=True)
 
     def __str__(self):
         return self.hostname
+
+    def get_absolute_url(self):
+        return reverse('workstation-detail', args=[str(self.id)])
 
 
 class Certificate(models.Model):
@@ -93,6 +99,9 @@ class Certificate(models.Model):
     def __str__(self):
         return '%s %s' % (self.owner, self.ending_date)
 
+    def get_absolute_url(self):
+        return reverse('certificate-detail', args=[str(self.id)])
+
 
 class Installed(models.Model):
 
@@ -108,8 +117,11 @@ class Installed(models.Model):
                                verbose_name="Нужен сертификат", default=False)
     cert_info = models.TextField(max_length=1000, help_text="Укажите данные о сертификате ЭП",
                                  verbose_name="Сертификат ЭП")
-    cetrificate = models.ForeignKey('Certificate', on_delete=models.CASCADE, null=True, blank=True)
+    certificate = models.ForeignKey('Certificate', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return '%s %s' % (self.software, self.workstation)
+
+    def get_absolute_url(self):
+        return reverse('installed-detail', args=[str(self.id)])
 

@@ -1,0 +1,22 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<p>Название: {{ software.name }}</p>
+<p>Версия: {{ software.version }}</p>
+<p>Лицензия: {{ software.free }}</p>
+<p>Информация: {{ software.info }}</p>
+
+
+<div>
+
+    {% for program in software.installed_set.all %}
+    <hr>
+    <p> Установлено на ПК: {{ program.workstation }}</p>
+    <p>Требуемая лицензия: {{ program.license }}</p>
+    {% if program.cert %}
+    <p>Требуемый сертификат: {{ program.certificate }}</p>
+    <p>Описание сертификата: {{ program.cert_info }}</p>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

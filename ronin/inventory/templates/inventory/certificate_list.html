@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>Список действующих сертификатов</h1>
+    {% if certificate_list %}
+    <ul>
+        {% for certificate in certificate_list %}
+        <li>
+            <a href="{{ certificate.get_absolute_url }}">
+                {{ certificate.owner }}__
+             </a>
+                {{ certificate.release_date }} -- {{ certificate.ending_date }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Ни одного сертификата</p>
+    {% endif %}
+{% endblock %}

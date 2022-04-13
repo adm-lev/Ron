@@ -1,0 +1,13 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<p>Название: {{ installed.software }}</p>
+<p>Установлено на ПК:  {{ installed.workstation }}</p>
+<p>Требуемая лицензия: {{ installed.license }}</p>
+{% if installed.cert %}
+    <p>Требуемый сертификат: {{ installed.certificate }}</p>
+    <p>Описание сертификата: {{ installed.cert_info }}</p>
+    {% endif %}
+
+
+{% endblock %}

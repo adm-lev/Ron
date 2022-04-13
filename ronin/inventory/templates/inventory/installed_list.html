@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>Список установленных программ</h1>
+    {% if installed_list %}
+    <ul>
+        {% for installed in installed_list %}
+        <li>
+            <a href="{{ installed.get_absolute_url }}">
+                {{ installed.software }}
+             </a>
+                {{ installed.workstation }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Ни одного приложения не используется</p>
+    {% endif %}
+{% endblock %}

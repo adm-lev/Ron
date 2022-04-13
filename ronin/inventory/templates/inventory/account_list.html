@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>Список учетных записей</h1>
+    {% if account_list %}
+    <ul>
+        {% for account in account_list %}
+        <li>
+            <a href="{{ account.get_absolute_url }}">
+                {{ account.login }}
+             </a>
+            {{ account.last_name }} {{ account.first_name }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>В списке логинов пусто :-(</p>
+    {% endif %}
+{% endblock %}
