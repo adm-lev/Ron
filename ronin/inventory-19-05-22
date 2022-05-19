@@ -1,0 +1,1843 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.10 (Ubuntu 12.10-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.10 (Ubuntu 12.10-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: Accounts; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public."Accounts" (
+    id bigint NOT NULL,
+    login character varying(100) NOT NULL,
+    first_name character varying(100) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    third_name character varying(100),
+    telephone integer,
+    main_email character varying(254) NOT NULL,
+    second_email character varying(254),
+    departament character varying(100)
+);
+
+
+ALTER TABLE public."Accounts" OWNER TO webadmin;
+
+--
+-- Name: Accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public."Accounts_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Accounts_id_seq" OWNER TO webadmin;
+
+--
+-- Name: Accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public."Accounts_id_seq" OWNED BY public."Accounts".id;
+
+
+--
+-- Name: Certificate; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public."Certificate" (
+    id bigint NOT NULL,
+    owner character varying(50) NOT NULL,
+    ver_center character varying(50) NOT NULL,
+    release_date date NOT NULL,
+    ending_date date NOT NULL,
+    sign character varying(100)
+);
+
+
+ALTER TABLE public."Certificate" OWNER TO webadmin;
+
+--
+-- Name: Certificate_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public."Certificate_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Certificate_id_seq" OWNER TO webadmin;
+
+--
+-- Name: Certificate_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public."Certificate_id_seq" OWNED BY public."Certificate".id;
+
+
+--
+-- Name: Installed; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public."Installed" (
+    id bigint NOT NULL,
+    license character varying(100) NOT NULL,
+    cert boolean NOT NULL,
+    cert_info text NOT NULL,
+    software_id bigint NOT NULL,
+    workstation_id bigint NOT NULL,
+    certificate_id bigint
+);
+
+
+ALTER TABLE public."Installed" OWNER TO webadmin;
+
+--
+-- Name: Installed_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public."Installed_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Installed_id_seq" OWNER TO webadmin;
+
+--
+-- Name: Installed_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public."Installed_id_seq" OWNED BY public."Installed".id;
+
+
+--
+-- Name: Software; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public."Software" (
+    id bigint NOT NULL,
+    name character varying(100) NOT NULL,
+    version character varying(100) NOT NULL,
+    free boolean NOT NULL,
+    soft_info text NOT NULL
+);
+
+
+ALTER TABLE public."Software" OWNER TO webadmin;
+
+--
+-- Name: Software_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public."Software_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Software_id_seq" OWNER TO webadmin;
+
+--
+-- Name: Software_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public."Software_id_seq" OWNED BY public."Software".id;
+
+
+--
+-- Name: Workstations; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public."Workstations" (
+    id bigint NOT NULL,
+    hostname character varying(100) NOT NULL,
+    cpu character varying(100),
+    ram character varying(100),
+    motherboard character varying(100),
+    storage character varying(100),
+    user_id bigint NOT NULL
+);
+
+
+ALTER TABLE public."Workstations" OWNER TO webadmin;
+
+--
+-- Name: Workstations_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public."Workstations_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Workstations_id_seq" OWNER TO webadmin;
+
+--
+-- Name: Workstations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public."Workstations_id_seq" OWNED BY public."Workstations".id;
+
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO webadmin;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO webadmin;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id bigint NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO webadmin;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO webadmin;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO webadmin;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO webadmin;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(150) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO webadmin;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.auth_user_groups (
+    id bigint NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO webadmin;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO webadmin;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO webadmin;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id bigint NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO webadmin;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO webadmin;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO webadmin;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO webadmin;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO webadmin;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO webadmin;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.django_migrations (
+    id bigint NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO webadmin;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: webadmin
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO webadmin;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: webadmin
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: webadmin
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO webadmin;
+
+--
+-- Name: Accounts id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Accounts" ALTER COLUMN id SET DEFAULT nextval('public."Accounts_id_seq"'::regclass);
+
+
+--
+-- Name: Certificate id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Certificate" ALTER COLUMN id SET DEFAULT nextval('public."Certificate_id_seq"'::regclass);
+
+
+--
+-- Name: Installed id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Installed" ALTER COLUMN id SET DEFAULT nextval('public."Installed_id_seq"'::regclass);
+
+
+--
+-- Name: Software id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Software" ALTER COLUMN id SET DEFAULT nextval('public."Software_id_seq"'::regclass);
+
+
+--
+-- Name: Workstations id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Workstations" ALTER COLUMN id SET DEFAULT nextval('public."Workstations_id_seq"'::regclass);
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Data for Name: Accounts; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public."Accounts" (id, login, first_name, last_name, third_name, telephone, main_email, second_email, departament) FROM stdin;
+1	eugene.lavrenko	Евгений	Лавренко	\N	\N	eugene.lavrenko@roninvest.ru	\N	\N
+2	anastasia.koftun	Анастасия	Кофтун	\N	\N	anastasia.koftun@roninvest.ru	\N	\N
+3	veronika.pinkina	Вероника	Пинкина	\N	\N	veronika.pinkina@roninvest.ru	\N	\N
+4	Julia.Kulikova	Юлия	Куликова	\N	\N	Julia.Kulikova@roninvest.ru	\N	\N
+5	Roman.Narozhny	Роман	Нарожный	\N	\N	Roman.Narozhny@roninvest.ru	\N	\N
+6	Olga.Amelina	Ольга	Амелина	\N	\N	Olga.Amelina@roninvest.ru	\N	\N
+7	Irina.Klimkina	Ирина	Климкина	\N	\N	Irina.Klimkina@roninvest.ru	\N	\N
+8	Elena.Lykova	Елена	Лыкова	\N	\N	Elena.Lykova@roninvest.ru	\N	\N
+9	Ekaterina.Plotnikova	Екатерина	Плотникова	\N	\N	Ekaterina.Plotnikova@roninvest.ru	\N	\N
+10	Vladimir.Saverchenko	Владимир	Саверченко	\N	\N	Vladimir.Saverchenko@roninvest.ru	\N	\N
+11	Svetlana.Semenova	Светлана	Семенова	\N	\N	Svetlana.Semenova@roninvest.ru	\N	\N
+12	Ekaterina.Emelianova	Екатерина	Емельянова	\N	\N	Ekaterina.Emelianova@roninvest.ru	\N	\N
+13	Tatyana.Shik	Татьяна	Шик	\N	\N	Tatyana.Shik@roninvest.ru	\N	\N
+14	Artiom.Delendik	Артем	Делендик	\N	\N	Artiom.Delendik@roninvest.ru	\N	\N
+15	Nataliya.Khlopovskikh	Наталья	Хлоповских	\N	\N	Nataliya.Khlopovskikh@roninvest.ru	\N	\N
+16	daria.rassadkina	Дарья	Рассадкина	\N	\N	daria.rassadkina@roninvest.ru	\N	\N
+17	Yegor.Razbitsky	Егор	Разбицкий	\N	\N	Yegor.Razbitsky@roninvest.ru	\N	\N
+18	Irina.Panova	Ирина	Саргсян	\N	\N	Irina.Panova@roninvest.ru	\N	\N
+19	Maria.Sonina	Марина	Сонина	\N	\N	Maria.Sonina@roninvest.ru	\N	\N
+20	Daria.Suhareva	Дарья	Шураева	\N	\N	Daria.Suhareva@roninvest.ru	\N	\N
+21	Maria.Chechurina	Мария	Чечурина	\N	\N	Maria.Chechurina@roninvest.ru	\N	\N
+22	Alexey.Kravets	Алексей	Кравец	\N	\N	Alexey.Kravets@roninvest.ru	\N	\N
+23	Nikita.Nikolskiy	Никита	Никольский	\N	\N	Nikita.Nikolskiy@roninvest.ru	\N	\N
+24	Vladislav.Oschepkov	Владислав	Ощепков	\N	\N	Vladislav.Oschepkov@roninvest.ru	\N	\N
+25	Yuriy.Vasin	Юрий	Васин	\N	\N	Yuriy.Vasin@roninvest.ru	\N	\N
+27	Natalia.Vinnikova	Наталья	Винникова	\N	\N	Natalia.Vinnikova@roninvest.ru	\N	\N
+28	Bella.Grigoryan	Белла	Григорян	\N	\N	Bella.Grigoryan@roninvest.ru	\N	\N
+29	Vladimir.Svistun	Владимир	Свистун	\N	\N	Vladimir.Svistun@roninvest.ru	\N	\N
+30	Svetlana.Mordashova	Светлана	Мордашова	\N	\N	Svetlana.Mordashova@roninvest.ru	\N	\N
+31	Sergey.Melikdzhanov	Сергей	Меликджанов	\N	\N	Sergey.Melikdzhanov@roninvest.ru	\N	\N
+32	Azat.Nasyrov	Азат	Насыров	\N	\N	Azat.Nasyrov@roninvest.ru	\N	\N
+33	Dmitry.Yatsenko	Дмитрий	Яценко	\N	\N	Dmitry.Yatsenko@roninvest.ru	\N	\N
+34	Konstantin.Goryainov	Константин	Горяинов	\N	\N	Konstantin.Goryainov@roninvest.ru	\N	\N
+35	Anna.Belkina	Анна	Белкина	\N	\N	Anna.Belkina@roninvest.ru	\N	\N
+36	Olga.Belyakova	Ольга	Белякова	\N	\N	Olga.Belyakova@roninvest.ru	\N	\N
+37	Marina.Berdichevskaya	Марина	Бердычевская	\N	\N	Marina.Berdichevskaya@roninvest.ru	\N	\N
+38	Natalya.Chebotareva	Наталья	Чеботарева	\N	\N	Natalya.Chebotareva@roninvest.ru	\N	\N
+39	Anna.Druzhinina	Анна	Дружинина	\N	\N	Anna.Druzhinina@roninvest.ru	\N	\N
+40	Yuliy.Shleper	Юлий	Шлепер	\N	\N	Yuliy.Shleper@roninvest.ru	\N	\N
+41	Anastasia.Brederman	Анастасия	Бредерман	\N	\N	Anastasia.Brederman@roninvest.ru	\N	\N
+42	Svetlana.Filimonova	Светлана	Филимонова	\N	\N	Svetlana.Filimonova@roninvest.ru	\N	\N
+43	Anna.Nosik	Анна	Кондрахина	\N	\N	Anna.Nosik@roninvest.ru	\N	\N
+44	Valeria.Muravieva	Валерия	Муравьева	\N	\N	Valeria.Muravieva@roninvest.ru	\N	\N
+45	Anastasia.Sidorkina	Анастасия	Сидоркина	\N	\N	Anastasia.Sidorkina@roninvest.ru	\N	\N
+46	Alena.Udalova	Алена	Удалова	\N	\N	Alena.Udalova@roninvest.ru	\N	\N
+47	Alexander.Balezin	Александр	Балезин	\N	\N	Alexander.Balezin@roninvest.ru	\N	\N
+48	Anton.Vinogradov	Антон	Виноградов	\N	\N	Anton.Vinogradov@roninvest.ru	\N	\N
+49	Sergey.Stukalov	Сергей	Стукалов	\N	\N	Sergey.Stukalov@roninvest.ru	\N	\N
+50	Maria.Vorobyova	Мария	Воробьева	\N	\N	Maria.Vorobyova@roninvest.ru	\N	\N
+51	Elena.Zubkova	Елена	Зубкова	\N	\N	Elena.Zubkova@roninvest.ru	\N	\N
+52	Yulia.Volkova	Юлия	Волкова	\N	\N	Yulia.Volkova@roninvest.ru	\N	\N
+53	Igor.Vetrov	Игорь	Ветров	\N	\N	Igor.Vetrov@roninvest.ru	\N	\N
+54	Natalia.Gavrikova	Наталья	Гаврикова	\N	\N	Natalia.Gavrikova@roninvest.ru	\N	\N
+55	Tatiana.Shikina	Татьяна	Шикина	\N	\N	Tatiana.Shikina@roninvest.ru	\N	\N
+56	kirill.tyutin	Кирилл	Тютин	\N	\N	kirill.tyutin@roninvest.ru	\N	\N
+57	Oleg.Chernokozov	Олег	Чернокозов	\N	\N	Oleg.Chernokozov@roninvest.ru	\N	\N
+58	Ekaterina.Strakhova	Екатерина	Страхова	\N	\N	Ekaterina.Strakhova@roninvest.ru	\N	\N
+59	igor.burakov	Игорь	Буряков	\N	\N	igor.burakov@roninvest.ru	\N	\N
+60	Lev.Feoktistov	Лев	Феоктистов	\N	\N	Lev.Feoktistov@roninvest.ru	\N	\N
+61	Elena.Gorbatova	Елена	Горбатова	\N	\N	Elena.Gorbatova@roninvest.ru	\N	\N
+62	Andrey.Denisenko	Андрей	Денисенко	\N	\N	Andrey.Denisenko@roninvest.ru	\N	\N
+63	Artem.Scherbakov	Артем	Щербаков	\N	\N	Artem.Scherbakov@roninvest.ru	\N	\N
+64	Grigoriy.Myasnikov	Григорий	Мясников	\N	\N	Grigoriy.Myasnikov@roninvest.ru	\N	\N
+65	Tatyana.Ivanova	Татьяна	Иванова	\N	\N	Tatyana.Ivanova@roninvest.ru	\N	\N
+66	Oleg.Sinyakov	Олег	Синяков	\N	\N	Oleg.Sinyakov@roninvest.ru	\N	\N
+67	Natalya.Rodina	Наталья	Родина	\N	\N	Natalya.Rodina@roninvest.ru	\N	\N
+68	None	None	None	\N	\N	None@roninvest.ru	\N	\N
+69	Igor.miklashevskiy	Игорь	Миклашевский	\N	\N	Igor.miklashevskiy@ronintrust.ru	\N	\N
+\.
+
+
+--
+-- Data for Name: Certificate; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public."Certificate" (id, owner, ver_center, release_date, ending_date, sign) FROM stdin;
+1	Кофтун Анастасия Викторовна	ПАО московская Биржа	2021-11-17	2031-11-17	523e2dcd9b461d6dc26b8044102a4fe801d77398
+\.
+
+
+--
+-- Data for Name: Installed; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public."Installed" (id, license, cert, cert_info, software_id, workstation_id, certificate_id) FROM stdin;
+6	ключ ЭП	t	Срок действия 10.20.2023, токен подключен  в USB	2	10	\N
+7	123	f	123	1	10	\N
+9	321	f	1331312313	1	11	\N
+10	erwere	f	werwer	6	11	\N
+12	3243142	f	342343124	2	12	\N
+11	rgrgr	f	fgfgfg	2	11	\N
+13	free	t	Сертификат находится на ПК на локальном диске. Закрытый ключ на флешке, подключенной к этому ПК	7	100	1
+14	active	f	11	8	21	\N
+\.
+
+
+--
+-- Data for Name: Software; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public."Software" (id, name, version, free, soft_info) FROM stdin;
+2	7-Zip	2021-12-26	t	7-Zip — свободный файловый архиватор с высокой степенью сжатия данных. Поддерживает несколько алгоритмов сжатия и множество форматов данных, включая собственный формат 7z c высокоэффективным алгоритмом сжатия LZMA.
+6	Налогоплательщик ЮЛ	4.75	t	Оказание помощи при подготовке налоговой, бухгалтерской отчетности и тд и тп
+1	Google Chrome	100.0.4896.100500	t	Google Chrome — браузер, разрабатываемый компанией Google на основе свободного браузера Chromium и движка Blink.
+7	Web-кабинет центрального депозитария	(browser)	t	Центральный депозитарий — расчётный институт инфраструктуры рынка ценных бумаг, традиционно осуществляющий на западных рынках функции дематериализации и иммобилизации ценных бумаг, а также играющий роль центра расчётов по ценным бумагам
+8	Windows	10 Pro	t	Windows 10 — операционная система для персональных компьютеров и рабочих станций, разработанная корпорацией Microsoft в рамках семейства Windows NT. После Windows 8.1 система получила номер 10, минуя 9. Серверные аналоги Windows 10 — Windows Server 2016, Windows Server 2019 и Windows Server 2022.
+\.
+
+
+--
+-- Data for Name: Workstations; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public."Workstations" (id, hostname, cpu, ram, motherboard, storage, user_id) FROM stdin;
+87	adenisenko	Intel(R) Core(TM) i3-4160 CPU @ 3.60GHz	8589934592  ChannelA-DIMM0  1600	ASUSTeK COMPUTER INC.         Base Board  H81I-PLUS	WDC WD5000AAKX-08U6AA0  500105249280	62
+21	adruzhinina	wmic cpu get name	BANK 2     8589934592  ChannelB-DIMM0  2666	Gigabyte Technology Co., Ltd.   H410M S2 V2	WDC  WDS250G2B0A-00SM50	39
+10	IP	i3	8	Asrock	200	1
+14	svistun10	\N	\N	\N	\N	29
+16	nnikolsky	\N	\N	\N	\N	23
+35	sec2	\N	\N	\N	\N	68
+38	cydc2	\N	\N	\N	\N	68
+53	wskg0	\N	\N	\N	\N	68
+58	wsphone	\N	\N	\N	\N	68
+72	smt	\N	\N	\N	\N	68
+74	lfeoktistov	\N	\N	\N	\N	60
+82	trnsq	\N	\N	\N	\N	68
+91	bmyasnikov2	\N	\N	\N	\N	64
+12	luch2	i3	8	Asus	250	1
+100	koftun2	\N	\N	\N	\N	2
+13	vpinkina3	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	8589934592   2666	Gigabyte Technology H410M S2 V2	WDC  WDS250G2B0A-00SM50            250056737280	3
+81	abalezin1	Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz	16 1600	ASUSTeK COMPUTER INC.  B85M-G	WDC WD10EZEX-75M2NA0  1000202273280	47
+83	adelendik-hp	Intel(R) Core(TM) i7-8700T CPU @ 2.40GHz	ChannelB   17179869184  DIMM1          2667	HP                   Base Board  83EF	\N	14
+88	asherbakov	Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz	4294967296  Physical Memory  2133, 4294967296  Physical Memory  2133	ASUSTeK COMPUTER INC.  H170I-PRO	Samsung SSD 860 EVO 250GB	63
+24	amelina	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	BANK 2     8589934592  ChannelB-DIMM0  2666	Gigabyte Technology  H410M	250	6
+71	back2	Intel(R) Xeon(R) CPU           E5520  @ 2.27GHz  - 2 units	4294967296  002C00B3802C  1333 - 6 units	Dell Inc.     0M233H	DELL PERC 6/i SCSI Disk Device  146155000320, DELL PERC 6/i SCSI Disk Device  1499205335040	68
+33	belyakova	AMD Ryzen 5 3500X 6-Core Processor	P0 CHANNEL A  8589934592  DIMM 1         2400	Gigabyte Technology Co., Ltd B550M	Samsung SSD 860 EVO M.2 250GB	36
+85	akondrakhina	Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz	8589934592  Physical Memory  1600	ASUSTeK COMPUTER INC.  B85M-G	WDC WD10EZEX-75M2NA0	43
+34	akravets	Intel(R) Core(TM) i3-9100 CPU @ 3.60GHz	8589934592  Physical Memory  2400	Gigabyte Technology Co., Ltd.  H310M D3H	Samsung SSD 860 EVO M.2 250GB, WDC WD5000AAKX-001CA0	22
+80	audalova	Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz	8589934592  Kingston      2133	MSI           H110I PRO (MS-7995)	WDC WD3200AAKX-001CA0	46
+31	autor	Intel(R) Xeon(R) E-2278G CPU @ 3.40GHz	17179869184  00CE00000A06  2666 - 4шт	Dell Inc 0DRR0P	DELL PERC H330 Adp SCSI Disk Device	68
+78	bbalezin	Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz	8589934592  Kingston      1600 - 4 units	ASUSTeK COMPUTER INC.  B85M-G	WDC WD10EZEX-75M2NA0 SCSI Disk Device	47
+45	bc-nrd	Intel(R) Core(TM) i3-3210 CPU @ 3.20GHz	4294967296  Kingston      1600  - 2 units	ASUSTeK COMPUTER INC.  P8H61-I R2.0	WDC WD2500AAKX-00ERMA0	68
+37	btutin2	Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz	17179869184  Corsair       2400  - 2 units	ASUSTeK COMPUTER INC.  PRIME B250M-A	Samsung SSD 860 PRO 256GB	56
+62	db1	Intel(R) Xeon(R) CPU E3-1240 v5 @ 3.50GHz	8589934592  00AD000000AD  2133 -  2 units	Dell Inc.     0MFXTY	DELL PERC H330 Adp SCSI Disk Device  299433093120,  DELL PERC H330 Adp SCSI Disk Device  99965117952	68
+67	edimail	Intel(R) Core(TM) i5-2300 CPU @ 2.80GHz	4160749568  Microsoft, 134217728   Microsoft	Microsoft Corporation  Virtual Machine	Virtual HD ATA Device  136358691840	68
+49	edotrust2	Intel(R) Core(TM) i3-8100 CPU @ 3.60GHz	8589934592  Kingston      2400	ASUSTeK COMPUTER INC.  PRIME H310I-PLUS R2.0	Samsung SSD 860 EVO 250GB	68
+51	estrakhova	Pentium(R) Dual-Core  CPU      E6300  @ 2.80GHz	2147483648  Manufacturer0  800 - 2 units	Intel Corporation  DG41MJ	WDC WD3200AAKS-00L9A0 ATA Device	58
+95	gmyasnikov	Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz	4294967296  Kingston      2133 - 2 units	ASUSTeK COMPUTER INC.  H170I-PRO	Samsung SSD 860 EVO 250GB	64
+99	imikl	Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz	8589934592  Kingston      2133 - 2 units	MSI           H110I PRO (MS-7995)	WDC WD1005FBYZ-01YCBB2	69
+76	ktutin2	Intel(R) Core(TM) i3-8300 CPU @ 3.70GHz	8589934592  Kingston      2400	Gigabyte Technology Co., Ltd.  H310N	SanDisk SSD PLUS 240GB	56
+60	mgmt	Intel(R) Xeon(TM) CPU 3.00GHz  - 2 units	1073741824                400  - 2 units	Intel         SE7520JR23S	WDC WD2500AAJS-00B4A0 ATA Device, WDC WD2500AAJS-00V4A0 ATA Device	68
+42	mskmon	Intel(R) Xeon(TM) CPU 3.60GHz - 2 units	1073741824                400 - 4 units	No Instance(s) Available.	HP LOGICAL VOLUME SCSI Disk Device  440430842880	68
+97	nchebotareva2	Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz	8589934592  Kingston      2133 - 2 units	MSI           H110I PRO (MS-7995)	WDC  WDS250G2B0A-00SM50	38
+22	oschepkov	Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz	4294967296  Kingston      1600 - 2 units	MSI           B75MA-P45 (MS-7798)	WDC  WDS250G2B0A-00SM50	24
+79	reuters	Intel(R) Core(TM) i3-6100 CPU @ 3.70GHz	4294967296  Kingston      2133 - 2 units	ASUSTeK COMPUTER INC.  H170I-PRO	Samsung SSD 860 EVO 250GB	68
+73	spectra2	Intel(R) Xeon(R) CPU           X5650  @ 2.67GHz - 2 units	8589934592  00CE00B380CE  1333 - 6 units	Dell Inc.     0XDX06	DELL PERC H700 SCSI Disk Device  584644677120	68
+96	t9b4	Intel(R) Xeon(R) Gold 6128 CPU @ 3.40GHz - 2 units	68719476736  00AD00B300AD  2666 - 8 units	Dell Inc.     0RR8YK	798863869440, 119965708800, 2000363420, 798863869440160	68
+32	tshikina	AMD Ryzen 3 2200G with Radeon Vega Graphics	4294967296  Unknown       2400 - 2 units	Gigabyte Technology Co., Ltd.  B450M DS3H V2	Samsung SSD 860 EVO M.2 250GB	55
+50	yrazbitsky	Intel(R) Core(TM) i3-8100 CPU @ 3.60GHz	8589934592  Kingston      2400	ASUSTeK COMPUTER INC.  PRIME H310I-PLUS R2.0	Samsung SSD 860 EVO 250GB	17
+66	bgrigoryan	Intel(R) Core(TM) i3-4330 CPU @ 3.50GHz	4294967296  Kingston      1600, 8589934592  1302          1600	ASUSTeK COMPUTER INC.  H87I-PLUS	ATA WDC WD5003AZEX-0 SCSI Disk Device	28
+90	bsherbakov2	Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz	17179869184  Corsair       2400  - 2 units	ASUSTeK COMPUTER INC.  PRIME B250M-A	Samsung SSD 860 PRO 256GB	63
+54	bud	Intel(R) Xeon(R) CPU E5-2620 0 @ 2.00GHz	8589934592  Samsung       1333  - 4 units	Supermicro    X9SRE/X9SRE-3F/X9SRi/X9SRi-3F	Intel Raid 1 Volume SCSI Disk Device  1425276518400	68
+23	chechurina	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	8589934592  8001          2666	Gigabyte Technology Co., Ltd.  H410M S2 V2	WDC  WDS250G2B0A-00SM50	21
+77	consultant	Intel(R) Xeon(R) CPU           E5520  @ 2.27GHz	4160749568  Microsoft, 134217728   Microsoft	Microsoft Corporation  Virtual Machine	Virtual HD ATA Device  805304263680	68
+46	czex4	Intel(R) Xeon(R) CPU E5-2620 0 @ 2.00GHz  - 2 units	8589934592  Samsung       1333  - 8 units, 4294967296  Samsung       1333  - 6 units	Supermicro    X9DRW-3LN4F+/X9DRW-3TF+	Adaptec Array SCSI Disk Device  1198291691520,  Intel Raid 1 Volume             570151733760	68
+55	ddemchenko	Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz	4294967296  Kingston      1333  -  2 units	ASUSTeK COMPUTER INC.  B85M-G	WDC WD10EZEX-75M2NA0 SCSI Disk Device	68
+89	drassadkina	Intel(R) Core(TM) i3-8300 CPU @ 3.70GHz	8589934592  Kingston      2400	Gigabyte Technology Co., Ltd.  H310N	SanDisk SSD PLUS 240GB	16
+70	dyatsenko	Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz	8589934592  Kingston      1600  -  2 units	ASUSTeK COMPUTER INC.  H170M-E D3	WDC WD5000AZRZ-00HTK SCSI Disk Device,  Samsung SSD 860 EVO 500GB	33
+68	edopif	Intel(R) Core(TM) i3-4160 CPU @ 3.60GHz	4294967296  Kingston      1600	Gigabyte Technology Co., Ltd.  H81ND2H	WD      WD5000AZRZ-00HTK SCSI Disk Device	68
+52	edoron	Intel(R) Core(TM) i3-3240 CPU @ 3.40GHz	2147483648  Kingston      1600 - 2 units	MSI           B75IA-E33 (MS-7733)	WDC WD2500AAKX-00ERMA0	68
+84	egorbatova	Intel(R) Core(TM) i3-3210 CPU @ 3.20GHz	4294967296  Kingston      1600,  4294967296  Kingston      1333	Intel Corporation  DH61DL	ST3160318AS	61
+11	elavrenko	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	8589934592  Kingston      2667 - 2 units	ASUSTeK COMPUTER INC.  PRIME H570M-PLUS	Samsung SSD 970 EVO Plus 500GB	1
+48	filimonova2	Intel(R) Core(TM) i3-10100 CPU @ 3.60GHz	8589934592  Kingston      2666	ASUSTeK COMPUTER INC.  PRIME H410I-PLUS	Samsung SSD 970 EVO Plus 250GB	42
+29	gavrikova	Intel(R) Core(TM) i3-9100 CPU @ 3.60GHz	8589934592  Kingston      2400	ASUSTeK COMPUTER INC.  PRIME H310I-PLUS R2.0	Samsung SSD 860 EVO 250GB	54
+75	hvasts	Intel(R) Core(TM) i7-3770 CPU @ 3.40GHz	4294967296  Kingston      1333 - 4 units	Intel Corporation  DQ77MK	Intel Raid 1 Volume  500097024000	68
+69	iburakov	Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz	17179869184  Kingston      2133 - 2 units	MSI           H110I PRO (MS-7995)	WDC WD10EZEX-08WN4A0 SCSI Disk Device	59
+41	isargsyan	Intel(R) Core(TM) i3-3240 CPU @ 3.40GHz	2147483648  Kingston      1600 - 2 units	MSI           B75IA-E33 (MS-7733)	WDC WD2500AAKX-00ERMA0	18
+28	ivetrov	Intel(R) Core(TM) i3-3240 CPU @ 3.40GHz	2147483648  Kingston      1333 - 2 units	MSI           B75IA-E33 (MS-7733)	WDC  WDS250G2B0A-00SM50	53
+93	jkulikova	Intel(R) Core(TM) i3-2100 CPU @ 3.10GHz	4294967296  Kingston      1333  - 2 units	ASUSTeK COMPUTER INC.  P8H61-I LX R2.0	WDC WD2500AAKX-00ERMA0 ATA Device	4
+86	jumbo	Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz  - 2 units	34359738368  Samsung       2400  - 8 units	Supermicro    X10DRi	Adaptec Array SCSI Disk Device  11999063139840,  Adaptec Array SCSI Disk Device  511085998080	68
+57	mberdicevskaya	Intel(R) Core(TM) i3-4130 CPU @ 3.40GHz	4294967296  Kingston      1600  - 2 units	ASUSTeK COMPUTER INC.  H81I-PLUS	WDC WD5000AAKX-08U6A SCSI Disk Device	37
+19	mordashova	Intel(R) Core(TM) i3-4130 CPU @ 3.40GHz	4294967296  Kingston      1333  - 2 units	ASUSTeK COMPUTER INC.  H81I-PLUS	WDC  WDS250G2B0A-00SM50, Seagate Expansion SCSI Disk Device  500105249280	30
+43	mskdc36	Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz  - 2 units	2147483648  00CE00B380CE  1333 - 6 units	Dell Inc.     084YMW	DELL PERC H700 SCSI Disk Device  299433093120	68
+44	mskex37	Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz - 2 units	4294967296  030B04B3830B  1333 - 6 units	Dell Inc.     084YMW	DELL PERC H700 SCSI Disk Device  1197757048320, DELL PERC H700 SCSI Disk Device  299433093120	68
+40	mskex47	Intel(R) Xeon(R) Gold 5217 CPU @ 3.00GHz - 2 units	34359738368  00AD069D00AD  3200 - 4 units	Dell Inc.     0DY2X0	DELL PERC H730P Adp SCSI Disk Device  959651642880, DELL PERC H730P Adp SCSI Disk Device  7197827374	68
+20	mvorobyova	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	8589934592  8001          2666	Gigabyte Technology Co., Ltd.  H410M S2 V2	WDC  WDS250G2B0A-00SM50	50
+15	narozhny	Intel(R) Core(TM) i3-4160 CPU @ 3.60GHz	4294967296  Kingston      1600 - 2 units	ASUSTeK COMPUTER INC.  H81I-PLUS	Samsung SSD 860 EVO 250GB	5
+98	nrodina	Intel(R) Core(TM) i3-4160 CPU @ 3.60GHz	4294967296  Kingston      1600	Gigabyte Technology Co., Ltd.  H81ND2H	WD      WD5000AZRZ-00HTK SCSI Disk Device	67
+39	ochernokozov	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	8589934592  SK Hynix      2400 - 2 units	Gigabyte Technology Co., Ltd.  B560M DS3H	WDC WD5003AZEX-00RKKA0, WDC  WDS250G2B0A-00SM50	57
+94	osinyakov	Intel(R) Core(TM) i3-7100 CPU @ 3.90GHz	8589934592  Kingston      2400 - 2 units	MSI           H110M PRO-VD (MS-7996)	WDC WD5000AZRZ-00HTKB0	66
+63	remoteapp	Intel(R) Core(TM) i5-2300 CPU @ 2.80GHz	4160749568  Microsoft, 4429185024  Microsoft	Microsoft Corporation  Virtual Machine	Virtual HD ATA Device  136358691840	68
+36	semenova	Intel(R) Core(TM) i3-8100 CPU @ 3.60GHz	8589934592  Kingston      2400	ASUSTeK COMPUTER INC.  PRIME H310I-PLUS R2.0	Samsung SSD 860 EVO 250GB	11
+26	sonina	Intel(R) Core(TM) i3-4330 CPU @ 3.50GHz	4294967296  Kingston      1600, 8589934592  1302          1600	ASUSTeK COMPUTER INC.  H87I-PLUS	WDC  WDS250G2B0A-00SM50	19
+64	space	Intel(R) Xeon(R) CPU E5-2630 v2 @ 2.60GHz - 23 units	8589934592  00CE04B300CE  1600 - 4 units	Dell Inc.     0T0WRN	DELL PERC H710P SCSI Disk Device  299433093120, DELL PERC H710P SCSI Disk Device  1799049692160	68
+18	stukalov	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	8589934592  8001          2666	Gigabyte Technology Co., Ltd.  H410M S2 V2	WDC  WDS250G2B0A-00SM50	49
+65	t9autoe	Intel(R) Xeon(R) CPU E3-1240 v5 @ 3.50GHz	17179869184  Samsung       2133 - 2 units	Supermicro    X11SSH-F	Intel Raid 1 Volume  1900409817600	68
+59	t9b3	Intel(R) Xeon(R) CPU           X5650  @ 2.67GHz - 2 units	8589934592  00CE00B380CE  1333 - 5 units	Dell Inc.     0XDX06	DELL PERC H700 SCSI Disk Device  292318225920, DELL PERC H700 SCSI Disk Device  798863869440	68
+47	t9storage	Intel(R) Xeon(R) CPU           E5430  @ 2.66GHz	1073741824  80CE808980CE  667 - 8 units	Dell Inc.     0CX396	DELL PERC 6/i SCSI Disk Device  292318225920, 499554155520, 999651179520	68
+56	t9test	Intel(R) Core(TM) i5-2300 CPU @ 2.80GHz	4294967296                1333 - 4 units	Gigabyte Technology Co., Ltd.  H67A-UD3H	Volume0                            1000202273280	68
+92	tivanova	Intel(R) Pentium(R) CPU G3420 @ 3.20GHz	8589934592  Kingston      1333	Gigabyte Technology Co., Ltd.  H81ND2H	WD      WD5000AZRZ-00HTK SCSI Disk Device	65
+17	vinogradov	Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz	8589934592  8001          2666	Gigabyte Technology Co., Ltd.  H410M S2 V2	WDC  WDS250G2B0A-00SM50	48
+27	volkova	Intel(R) Core(TM) i3-4130 CPU @ 3.40GHz	8589934592  Kingston      1333	ASUSTeK COMPUTER INC.  H81I-PLUS	WDC  WDS250G2B0A-00SM50	52
+61	yshleper	Intel(R) Core(TM) i3-3210 CPU @ 3.20GHz	2147483648  Kingston      1333 - 2 units	Intel Corporation  DH61DL	WDC WD2500AAKX-00ERMA0 ATA Device	40
+25	zubkova	Intel(R) Core(TM) i5-6400 CPU @ 2.70GHz	Отсутствуют экземпляры.	ASUSTeK COMPUTER INC.  H110M2 D3	WDC WD5000AZRZ-00HTKB0	51
+\.
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+1	Test_users
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add workstation	7	add_workstation
+26	Can change workstation	7	change_workstation
+27	Can delete workstation	7	delete_workstation
+28	Can view workstation	7	view_workstation
+29	Can add account	8	add_account
+30	Can change account	8	change_account
+31	Can delete account	8	delete_account
+32	Can view account	8	view_account
+33	Can add installed	9	add_installed
+34	Can change installed	9	change_installed
+35	Can delete installed	9	delete_installed
+36	Can view installed	9	view_installed
+37	Can add software	10	add_software
+38	Can change software	10	change_software
+39	Can delete software	10	delete_software
+40	Can view software	10	view_software
+41	Can add Сертификаты	11	add_certificate
+42	Can change Сертификаты	11	change_certificate
+43	Can delete Сертификаты	11	delete_certificate
+44	Can view Сертификаты	11	view_certificate
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+2	pbkdf2_sha256$320000$xxvHyHLJEmg5PxWk07y7Wg$dbYdzxvCUNooCHgVOvgYxQ3YFnMSUX8TliCbMDqxN7A=	\N	f	test				f	t	2022-04-13 17:46:51+03
+1	pbkdf2_sha256$320000$oa83czDoVmcI8EJL0H0mQz$06x0gXTs4ic8QHAURxmEEWleolU6BYWBbpj8Ab1SeTM=	2022-05-11 10:25:38.329724+03	t	adm_ron			eugene.lavrenko@roninvest.ru	t	t	2022-04-08 13:21:11.487631+03
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+1	2	1
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2022-04-08 13:27:44.948717+03	1	eugene.lavrenko	1	[{"added": {}}]	8	1
+2	2022-04-08 13:46:05.795105+03	2	anastasia.koftun	1	[{"added": {}}]	8	1
+3	2022-04-08 13:53:34.507761+03	1	Google Chrom	1	[{"added": {}}]	10	1
+4	2022-04-08 13:53:47.91325+03	1	Google Chrome	2	[{"changed": {"fields": ["\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435"]}}]	10	1
+5	2022-04-08 13:55:24.504807+03	2	7-Zip	1	[{"added": {}}]	10	1
+6	2022-04-08 14:49:00.242869+03	3	2	1	[{"added": {}}]	10	1
+7	2022-04-08 15:48:30.062981+03	9	3	1	[{"added": {}}]	7	1
+8	2022-04-11 09:40:58.485948+03	9	3	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0433\\u0440\\u0430\\u043c\\u043c\\u043d\\u043e\\u0435 \\u043e\\u0431\\u0435\\u0441\\u043f\\u0435\\u0447\\u0435\\u043d\\u0438\\u0435"]}}]	7	1
+9	2022-04-11 10:26:32.340839+03	4	3	1	[{"added": {}}]	10	1
+10	2022-04-11 10:26:36.159157+03	5	4	1	[{"added": {}}]	10	1
+11	2022-04-11 10:27:09.181461+03	10	IP	1	[{"added": {}}]	7	1
+12	2022-04-11 10:34:55.939962+03	5	2 IP	1	[{"added": {}}]	9	1
+13	2022-04-11 10:36:29.948034+03	6	7-Zip IP	1	[{"added": {}}]	9	1
+14	2022-04-11 10:40:23.191145+03	5	2 2 IP	3		9	1
+15	2022-04-11 10:40:41.64441+03	5	4 4	3		10	1
+16	2022-04-11 10:40:41.652589+03	4	3 3	3		10	1
+17	2022-04-11 10:40:41.665593+03	3	2 2	3		10	1
+18	2022-04-11 10:42:49.892468+03	6	Налогоплательщик ЮЛ 4.75	1	[{"added": {}}]	10	1
+19	2022-04-11 10:42:59.618256+03	10	IP	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0433\\u0440\\u0430\\u043c\\u043c\\u043d\\u043e\\u0435 \\u043e\\u0431\\u0435\\u0441\\u043f\\u0435\\u0447\\u0435\\u043d\\u0438\\u0435"]}}]	7	1
+20	2022-04-11 10:44:58.644793+03	7	Google Chrome 100.0.4896.60 IP	1	[{"added": {}}]	9	1
+21	2022-04-11 10:45:04.79395+03	8	Google Chrome 100.0.4896.60 3	1	[{"added": {}}]	9	1
+22	2022-04-11 10:45:38.138546+03	1	Google Chrome 100.0.4896.100500	2	[{"changed": {"fields": ["\\u0412\\u0435\\u0440\\u0441\\u0438\\u044f"]}}]	10	1
+23	2022-04-11 11:11:43.31773+03	8	Google Chrome 100.0.4896.100500 3	3		9	1
+24	2022-04-11 11:11:55.141929+03	9	3	3		7	1
+25	2022-04-11 11:12:47.41852+03	11	elavrenko	1	[{"added": {}}]	7	1
+26	2022-04-11 11:13:44.246306+03	12	luch2	1	[{"added": {}}]	7	1
+27	2022-04-11 11:13:52.849772+03	10	IP	2	[{"changed": {"fields": ["\\u041f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+28	2022-04-11 11:14:30.638285+03	9	Google Chrome 100.0.4896.100500 elavrenko	1	[{"added": {}}]	9	1
+29	2022-04-11 11:27:33.542443+03	10	Налогоплательщик ЮЛ 4.75 elavrenko	1	[{"added": {}}]	9	1
+30	2022-04-11 11:27:45.077378+03	11	7-Zip 2021-12-26 elavrenko	1	[{"added": {}}]	9	1
+31	2022-04-11 11:40:05.814899+03	11	elavrenko	2	[{"changed": {"fields": ["Software"]}}]	7	1
+32	2022-04-11 11:42:56.146903+03	12	7-Zip 2021-12-26 luch2	1	[{"added": {}}]	9	1
+33	2022-04-11 11:50:09.495876+03	3	veronika.pinkina	1	[{"added": {}}]	8	1
+34	2022-04-11 11:50:14.337532+03	13	vpinkina3	1	[{"added": {}}]	7	1
+35	2022-04-12 15:04:08.805222+03	4	Julia.Kulikova	1	[{"added": {}}]	8	1
+36	2022-04-12 15:04:35.613815+03	5	Roman.Narozhny	1	[{"added": {}}]	8	1
+37	2022-04-12 15:04:55.862938+03	6	Olga.Amelina	1	[{"added": {}}]	8	1
+38	2022-04-12 15:05:14.376872+03	7	Irina.Klimkina	1	[{"added": {}}]	8	1
+39	2022-04-12 15:05:29.458607+03	8	Elena.Lykova	1	[{"added": {}}]	8	1
+40	2022-04-12 15:05:47.643351+03	9	Ekaterina.Plotnikova	1	[{"added": {}}]	8	1
+41	2022-04-12 15:06:04.676934+03	10	Vladimir.Saverchenko	1	[{"added": {}}]	8	1
+42	2022-04-12 15:06:19.127226+03	11	Svetlana.Semenova	1	[{"added": {}}]	8	1
+43	2022-04-12 15:06:38.549885+03	12	Ekaterina.Emelianova	1	[{"added": {}}]	8	1
+44	2022-04-12 15:06:51.974482+03	13	Tatyana.Shik	1	[{"added": {}}]	8	1
+45	2022-04-12 15:07:04.151221+03	14	Artiom.Delendik	1	[{"added": {}}]	8	1
+46	2022-04-12 15:07:20.967109+03	15	Nataliya.Khlopovskikh	1	[{"added": {}}]	8	1
+47	2022-04-12 15:07:32.84598+03	16	daria.rassadkina	1	[{"added": {}}]	8	1
+48	2022-04-12 15:07:49.444645+03	17	Yegor.Razbitsky	1	[{"added": {}}]	8	1
+49	2022-04-12 15:08:04.589966+03	18	Irina.Panova	1	[{"added": {}}]	8	1
+50	2022-04-12 15:08:25.029994+03	19	Maria.Sonina	1	[{"added": {}}]	8	1
+51	2022-04-12 15:08:45.07563+03	20	Daria.Suhareva	1	[{"added": {}}]	8	1
+52	2022-04-12 15:09:06.472454+03	21	Maria.Chechurina	1	[{"added": {}}]	8	1
+53	2022-04-12 15:09:21.72325+03	22	Alexey.Kravets	1	[{"added": {}}]	8	1
+54	2022-04-12 15:09:33.926294+03	23	Nikita.Nikolskiy	1	[{"added": {}}]	8	1
+55	2022-04-12 15:09:54.890539+03	24	Vladislav.Oschepkov	1	[{"added": {}}]	8	1
+56	2022-04-12 15:10:06.212613+03	25	Yuriy.Vasin	1	[{"added": {}}]	8	1
+57	2022-04-12 15:10:50.687188+03	26	Yuriy.Vasin	1	[{"added": {}}]	8	1
+58	2022-04-12 15:11:09.300402+03	26	Yuriy.Vasin	3		8	1
+59	2022-04-12 15:16:33.079817+03	27	Natalia.Vinnikova	1	[{"added": {}}]	8	1
+60	2022-04-12 15:16:49.789739+03	28	Bella.Grigoryan	1	[{"added": {}}]	8	1
+61	2022-04-12 15:17:11.079302+03	29	Vladimir.Svistun	1	[{"added": {}}]	8	1
+62	2022-04-12 15:17:25.127703+03	30	Svetlana.Mordashova	1	[{"added": {}}]	8	1
+63	2022-04-12 15:17:39.658271+03	31	Sergey.Melikdzhanov	1	[{"added": {}}]	8	1
+64	2022-04-12 15:17:55.311456+03	32	Azat.Nasyrov	1	[{"added": {}}]	8	1
+65	2022-04-12 15:18:13.340481+03	33	Dmitry.Yatsenko	1	[{"added": {}}]	8	1
+66	2022-04-12 15:18:27.016695+03	34	Konstantin.Goryainov	1	[{"added": {}}]	8	1
+67	2022-04-12 15:18:44.013492+03	35	Anna.Belkina	1	[{"added": {}}]	8	1
+68	2022-04-12 15:19:02.398516+03	36	Olga.Belyakova	1	[{"added": {}}]	8	1
+69	2022-04-12 15:19:18.091672+03	37	Marina.Berdichevskaya	1	[{"added": {}}]	8	1
+70	2022-04-12 15:19:33.621919+03	38	Natalya.Chebotareva	1	[{"added": {}}]	8	1
+71	2022-04-12 15:19:58.430976+03	39	Anna.Druzhinina	1	[{"added": {}}]	8	1
+72	2022-04-12 15:20:16.733912+03	40	Yuliy.Shleper	1	[{"added": {}}]	8	1
+73	2022-04-12 15:20:51.318459+03	41	Anastasia.Brederman	1	[{"added": {}}]	8	1
+74	2022-04-12 15:21:07.951152+03	42	Svetlana.Filimonova	1	[{"added": {}}]	8	1
+75	2022-04-12 15:21:34.829016+03	43	Anna.Nosik	1	[{"added": {}}]	8	1
+76	2022-04-12 15:21:50.400649+03	44	Valeria.Muravieva	1	[{"added": {}}]	8	1
+77	2022-04-12 15:22:03.684401+03	45	Anastasia.Sidorkina	1	[{"added": {}}]	8	1
+78	2022-04-12 15:22:29.682932+03	46	Alena.Udalova	1	[{"added": {}}]	8	1
+79	2022-04-12 15:22:45.908255+03	47	Alexander.Balezin	1	[{"added": {}}]	8	1
+80	2022-04-12 15:23:03.02399+03	48	Anton.Vinogradov	1	[{"added": {}}]	8	1
+81	2022-04-12 15:23:28.752592+03	49	Sergey.Stukalov	1	[{"added": {}}]	8	1
+82	2022-04-12 15:23:50.907948+03	50	Maria.Vorobyova	1	[{"added": {}}]	8	1
+83	2022-04-12 15:24:07.839106+03	51	Elena.Zubkova	1	[{"added": {}}]	8	1
+84	2022-04-12 15:24:25.598732+03	52	Yulia.Volkova	1	[{"added": {}}]	8	1
+85	2022-04-12 15:24:52.150156+03	53	Igor.Vetrov	1	[{"added": {}}]	8	1
+86	2022-04-12 15:25:08.953234+03	54	Natalia.Gavrikova	1	[{"added": {}}]	8	1
+87	2022-04-12 15:25:24.446116+03	55	Tatiana.Shikina	1	[{"added": {}}]	8	1
+88	2022-04-12 15:25:43.140779+03	56	kirill.tyutin	1	[{"added": {}}]	8	1
+89	2022-04-12 15:26:00.270681+03	57	Oleg.Chernokozov	1	[{"added": {}}]	8	1
+90	2022-04-12 15:26:20.97321+03	58	Ekaterina.Strakhova	1	[{"added": {}}]	8	1
+91	2022-04-12 15:26:37.67181+03	59	igor.burakov	1	[{"added": {}}]	8	1
+92	2022-04-12 15:26:55.396665+03	60	Lev.Feoktistov	1	[{"added": {}}]	8	1
+93	2022-04-12 15:27:13.126476+03	61	Elena.Gorbatova	1	[{"added": {}}]	8	1
+94	2022-04-12 15:27:33.326556+03	62	Andrey.Denisenko	1	[{"added": {}}]	8	1
+95	2022-04-12 15:27:52.323346+03	63	Artem.Scherbakov	1	[{"added": {}}]	8	1
+96	2022-04-12 15:28:07.622267+03	64	Grigoriy.Myasnikov	1	[{"added": {}}]	8	1
+97	2022-04-12 15:28:28.519887+03	65	Tatyana.Ivanova	1	[{"added": {}}]	8	1
+98	2022-04-12 15:28:47.615208+03	66	Oleg.Sinyakov	1	[{"added": {}}]	8	1
+99	2022-04-12 15:29:02.535651+03	67	Natalya.Rodina	1	[{"added": {}}]	8	1
+100	2022-04-12 15:34:31.408225+03	14	svistun10	1	[{"added": {}}]	7	1
+101	2022-04-12 15:35:38.016113+03	15	narozhny	1	[{"added": {}}]	7	1
+102	2022-04-12 15:35:52.659353+03	16	nnikolsky	1	[{"added": {}}]	7	1
+103	2022-04-12 15:36:09.960212+03	17	vinogradov	1	[{"added": {}}]	7	1
+104	2022-04-12 15:36:22.678013+03	18	stukalov	1	[{"added": {}}]	7	1
+105	2022-04-12 15:36:39.468657+03	19	mordashova	1	[{"added": {}}]	7	1
+106	2022-04-12 15:36:48.958521+03	20	mvorobyova	1	[{"added": {}}]	7	1
+107	2022-04-12 15:37:02.199753+03	21	adruzhinina	1	[{"added": {}}]	7	1
+108	2022-04-12 15:37:28.292047+03	22	oschepkov	1	[{"added": {}}]	7	1
+109	2022-04-12 15:37:38.836088+03	23	chechurina	1	[{"added": {}}]	7	1
+110	2022-04-12 15:37:46.914689+03	24	amelina	1	[{"added": {}}]	7	1
+111	2022-04-12 15:37:58.641276+03	25	zubkova	1	[{"added": {}}]	7	1
+112	2022-04-12 15:38:07.128361+03	26	sonina	1	[{"added": {}}]	7	1
+113	2022-04-12 15:38:31.980433+03	27	volkova	1	[{"added": {}}]	7	1
+114	2022-04-12 15:38:41.966265+03	28	ivetrov	1	[{"added": {}}]	7	1
+115	2022-04-12 15:38:53.469794+03	29	gavrikova	1	[{"added": {}}]	7	1
+116	2022-04-12 15:42:23.085764+03	68	None	1	[{"added": {}}]	8	1
+117	2022-04-12 15:42:45.43797+03	31	autor	1	[{"added": {}}]	7	1
+118	2022-04-12 15:42:56.679541+03	32	tshikina	1	[{"added": {}}]	7	1
+119	2022-04-12 15:43:05.74265+03	33	belyakova	1	[{"added": {}}]	7	1
+120	2022-04-12 15:43:16.597166+03	34	akravets	1	[{"added": {}}]	7	1
+121	2022-04-12 15:43:26.845636+03	35	sec2	1	[{"added": {}}]	7	1
+122	2022-04-12 15:43:37.377066+03	36	semenova	1	[{"added": {}}]	7	1
+123	2022-04-12 15:43:51.659947+03	37	btutin2	1	[{"added": {}}]	7	1
+124	2022-04-12 15:44:00.252189+03	38	cydc2	1	[{"added": {}}]	7	1
+125	2022-04-12 15:44:14.207122+03	39	ochernokozov	1	[{"added": {}}]	7	1
+126	2022-04-12 15:44:21.470767+03	40	mskex47	1	[{"added": {}}]	7	1
+127	2022-04-12 15:44:34.167867+03	41	isargsyan	1	[{"added": {}}]	7	1
+128	2022-04-12 15:44:48.815989+03	42	mskmon	1	[{"added": {}}]	7	1
+129	2022-04-12 15:44:55.508743+03	43	mskdc36	1	[{"added": {}}]	7	1
+130	2022-04-12 15:45:03.152155+03	44	mskex37	1	[{"added": {}}]	7	1
+131	2022-04-12 15:45:13.131337+03	45	bc-nrd	1	[{"added": {}}]	7	1
+132	2022-04-12 15:45:20.382841+03	46	czex4	1	[{"added": {}}]	7	1
+133	2022-04-12 15:45:37.618348+03	47	t9storage	1	[{"added": {}}]	7	1
+134	2022-04-12 15:45:50.794146+03	48	filimonova2	1	[{"added": {}}]	7	1
+135	2022-04-12 15:45:59.024214+03	49	edotrust2	1	[{"added": {}}]	7	1
+136	2022-04-12 15:46:08.00679+03	50	yrazbitsky	1	[{"added": {}}]	7	1
+137	2022-04-12 15:46:26.886963+03	51	estrakhova	1	[{"added": {}}]	7	1
+138	2022-04-12 15:46:36.766994+03	52	edoron	1	[{"added": {}}]	7	1
+139	2022-04-12 15:46:47.085216+03	53	wskg0	1	[{"added": {}}]	7	1
+140	2022-04-12 15:46:54.644774+03	54	bud	1	[{"added": {}}]	7	1
+141	2022-04-12 15:47:13.428194+03	55	ddemchenko	1	[{"added": {}}]	7	1
+142	2022-04-12 15:47:21.422253+03	56	t9test	1	[{"added": {}}]	7	1
+143	2022-04-12 15:47:36.451637+03	57	mberdicevskaya	1	[{"added": {}}]	7	1
+144	2022-04-12 15:47:44.983363+03	58	wsphone	1	[{"added": {}}]	7	1
+145	2022-04-12 15:47:57.425254+03	59	t9b3	1	[{"added": {}}]	7	1
+146	2022-04-12 15:48:06.212484+03	60	mgmt	1	[{"added": {}}]	7	1
+147	2022-04-12 15:48:36.682563+03	61	yshleper	1	[{"added": {}}]	7	1
+148	2022-04-12 15:48:43.849558+03	62	db1	1	[{"added": {}}]	7	1
+149	2022-04-12 15:48:50.840329+03	63	remoteapp	1	[{"added": {}}]	7	1
+150	2022-04-12 15:48:57.858582+03	64	space	1	[{"added": {}}]	7	1
+151	2022-04-12 15:49:06.466234+03	65	t9autoe	1	[{"added": {}}]	7	1
+152	2022-04-12 15:49:16.101194+03	66	bgrigoryan	1	[{"added": {}}]	7	1
+153	2022-04-12 15:49:23.810609+03	67	edimail	1	[{"added": {}}]	7	1
+154	2022-04-12 15:49:36.199772+03	68	edopif	1	[{"added": {}}]	7	1
+155	2022-04-12 15:49:45.91553+03	69	iburakov	1	[{"added": {}}]	7	1
+156	2022-04-12 15:50:01.914247+03	70	dyatsenko	1	[{"added": {}}]	7	1
+157	2022-04-12 15:50:12.341597+03	71	back2	1	[{"added": {}}]	7	1
+158	2022-04-12 15:50:19.697322+03	72	smt	1	[{"added": {}}]	7	1
+159	2022-04-12 15:50:26.441121+03	73	spectra2	1	[{"added": {}}]	7	1
+160	2022-04-12 15:50:33.326398+03	74	lfeoktistov	1	[{"added": {}}]	7	1
+161	2022-04-12 15:50:49.5626+03	75	hvasts	1	[{"added": {}}]	7	1
+162	2022-04-12 15:50:59.825079+03	76	ktutin2	1	[{"added": {}}]	7	1
+163	2022-04-12 15:51:13.440818+03	77	consultant	1	[{"added": {}}]	7	1
+164	2022-04-12 15:51:31.060173+03	78	bbalezin	1	[{"added": {}}]	7	1
+165	2022-04-12 15:51:42.893538+03	79	reuters	1	[{"added": {}}]	7	1
+166	2022-04-12 15:51:56.165116+03	80	audalova	1	[{"added": {}}]	7	1
+167	2022-04-12 15:52:19.130555+03	81	abalezin1	1	[{"added": {}}]	7	1
+168	2022-04-12 15:52:26.444112+03	82	trnsq	1	[{"added": {}}]	7	1
+169	2022-04-12 15:52:46.797499+03	83	adelendik-hp	1	[{"added": {}}]	7	1
+170	2022-04-12 15:53:04.896064+03	84	egorbatova	1	[{"added": {}}]	7	1
+171	2022-04-12 15:53:21.064982+03	85	akondrakhina	1	[{"added": {}}]	7	1
+172	2022-04-12 15:53:32.165616+03	86	jumbo	1	[{"added": {}}]	7	1
+173	2022-04-12 15:53:49.902387+03	87	adenisenko	1	[{"added": {}}]	7	1
+174	2022-04-12 15:54:07.475157+03	88	asherbakov	1	[{"added": {}}]	7	1
+175	2022-04-12 15:54:15.780526+03	89	drassadkina	1	[{"added": {}}]	7	1
+176	2022-04-12 15:55:01.947729+03	90	bsherbakov2	1	[{"added": {}}]	7	1
+177	2022-04-12 15:55:10.174525+03	91	bmyasnikov2	1	[{"added": {}}]	7	1
+178	2022-04-12 15:55:20.195128+03	92	tivanova	1	[{"added": {}}]	7	1
+179	2022-04-12 15:55:28.742317+03	93	jkulikova	1	[{"added": {}}]	7	1
+180	2022-04-12 15:55:38.432349+03	94	osinyakov	1	[{"added": {}}]	7	1
+181	2022-04-12 15:55:55.479411+03	95	gmyasnikov	1	[{"added": {}}]	7	1
+182	2022-04-12 15:56:03.01782+03	96	t9b4	1	[{"added": {}}]	7	1
+183	2022-04-12 15:56:12.712457+03	97	nchebotareva2	1	[{"added": {}}]	7	1
+184	2022-04-12 15:56:24.615823+03	98	nrodina	1	[{"added": {}}]	7	1
+185	2022-04-12 15:58:44.243318+03	69	Igor.miklashevskiy	1	[{"added": {}}]	8	1
+186	2022-04-12 15:58:59.147374+03	99	imikl	1	[{"added": {}}]	7	1
+187	2022-04-12 16:00:11.581543+03	12	luch2	2	[{"changed": {"fields": ["\\u041f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+188	2022-04-12 17:49:22.629924+03	1	Кофтун Анастасия Викторовна 2031-11-17	1	[{"added": {}}]	11	1
+189	2022-04-12 17:49:46.969399+03	11	7-Zip 2021-12-26 elavrenko	2	[]	9	1
+190	2022-04-12 17:53:35.284395+03	7	Web-кабинет центрального депозитария (browser)	1	[{"added": {}}]	10	1
+191	2022-04-12 17:57:39.322431+03	100	koftun2	1	[{"added": {}}]	7	1
+192	2022-04-12 17:59:18.776686+03	13	Web-кабинет центрального депозитария (browser) koftun2	1	[{"added": {}}]	9	1
+193	2022-04-13 17:45:24.451889+03	1	Test_users	1	[{"added": {}}]	3	1
+194	2022-04-13 17:45:37.335966+03	2	test	1	[{"added": {}}]	3	1
+195	2022-04-13 17:45:51.15496+03	2	test	3		3	1
+196	2022-04-13 17:46:51.543671+03	2	test	1	[{"added": {}}]	4	1
+197	2022-04-13 17:47:00.455102+03	2	test	2	[{"changed": {"fields": ["Groups"]}}]	4	1
+198	2022-04-25 15:35:58.453654+03	13	vpinkina3	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+199	2022-04-25 15:38:16.842457+03	81	abalezin1	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+200	2022-04-25 17:41:05.785872+03	83	adelendik-hp	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430"]}}]	7	1
+201	2022-04-25 17:43:00.832307+03	34	akravets	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+202	2022-04-25 17:43:54.143893+03	24	amelina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+203	2022-04-25 17:44:54.549992+03	31	autor	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430"]}}]	7	1
+204	2022-04-25 17:45:50.029834+03	33	belyakova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+205	2022-05-19 09:07:05.830059+03	87	adenisenko	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+206	2022-05-19 09:15:40.104464+03	8	Windows 10 Pro	1	[{"added": {}}]	10	1
+207	2022-05-19 09:19:59.059236+03	21	adruzhinina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}, {"added": {"name": "\\u0423\\u0441\\u0442\\u0430\\u043d\\u043e\\u0432\\u043b\\u0435\\u043d\\u043d\\u043e\\u0435 \\u041f\\u041e", "object": "Windows 10 Pro adruzhinina"}}]	7	1
+208	2022-05-19 09:26:31.438548+03	85	akondrakhina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+209	2022-05-19 09:28:21.916235+03	34	akravets	2	[{"changed": {"fields": ["\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+210	2022-05-19 09:31:16.286342+03	88	asherbakov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+211	2022-05-19 09:33:59.179961+03	80	audalova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+212	2022-05-19 09:35:51.473652+03	31	autor	2	[{"changed": {"fields": ["\\u041e\\u0417\\u0423", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+213	2022-05-19 09:39:07.747085+03	71	back2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+214	2022-05-19 09:42:26.965387+03	78	bbalezin	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+215	2022-05-19 09:47:57.419614+03	45	bc-nrd	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+216	2022-05-19 09:49:29.870257+03	66	bgrigoryan	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+217	2022-05-19 09:53:51.286613+03	90	bsherbakov2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+218	2022-05-19 09:55:39.581642+03	37	btutin2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+219	2022-05-19 09:57:33.045026+03	54	bud	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+220	2022-05-19 10:01:53.788365+03	23	chechurina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+221	2022-05-19 10:03:53.504774+03	77	consultant	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+222	2022-05-19 10:06:55.030518+03	46	czex4	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+223	2022-05-19 10:22:36.09682+03	62	db1	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+224	2022-05-19 10:24:00.196848+03	55	ddemchenko	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+225	2022-05-19 10:25:15.08444+03	89	drassadkina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+226	2022-05-19 10:26:59.859829+03	70	dyatsenko	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+227	2022-05-19 10:28:18.186568+03	67	edimail	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+228	2022-05-19 10:29:42.665002+03	68	edopif	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+229	2022-05-19 11:35:08.580991+03	52	edoron	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+230	2022-05-19 11:36:43.572754+03	49	edotrust2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+231	2022-05-19 11:47:25.310292+03	84	egorbatova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+232	2022-05-19 11:48:58.035438+03	11	elavrenko	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+233	2022-05-19 11:50:27.482649+03	51	estrakhova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+234	2022-05-19 11:51:29.865448+03	48	filimonova2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+235	2022-05-19 11:55:07.29555+03	29	gavrikova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+236	2022-05-19 11:56:37.527015+03	95	gmyasnikov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+237	2022-05-19 11:57:51.597681+03	75	hvasts	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+238	2022-05-19 11:59:05.574587+03	69	iburakov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+239	2022-05-19 12:00:32.883517+03	99	imikl	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+240	2022-05-19 12:02:07.036157+03	41	isargsyan	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+241	2022-05-19 12:03:21.100078+03	28	ivetrov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+242	2022-05-19 13:32:32.529926+03	93	jkulikova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+243	2022-05-19 13:34:35.292561+03	86	jumbo	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+244	2022-05-19 13:37:26.959968+03	76	ktutin2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+245	2022-05-19 13:40:35.960688+03	57	mberdicevskaya	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+246	2022-05-19 13:44:04.096941+03	60	mgmt	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+247	2022-05-19 13:45:42.9115+03	19	mordashova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+248	2022-05-19 13:47:07.295327+03	43	mskdc36	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+249	2022-05-19 13:50:33.597735+03	44	mskex37	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+250	2022-05-19 13:51:59.548398+03	40	mskex47	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+251	2022-05-19 13:53:38.833466+03	42	mskmon	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+252	2022-05-19 13:54:41.772002+03	20	mvorobyova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+253	2022-05-19 13:55:53.721035+03	15	narozhny	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+254	2022-05-19 13:57:08.152809+03	97	nchebotareva2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+255	2022-05-19 13:58:44.967789+03	98	nrodina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+256	2022-05-19 13:59:59.285226+03	39	ochernokozov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+257	2022-05-19 14:01:01.902672+03	22	oschepkov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+258	2022-05-19 14:02:02.397725+03	94	osinyakov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+259	2022-05-19 14:03:15.886085+03	63	remoteapp	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+260	2022-05-19 14:13:09.730258+03	79	reuters	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+261	2022-05-19 14:14:44.814491+03	36	semenova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+262	2022-05-19 14:18:00.373443+03	26	sonina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+263	2022-05-19 14:19:36.748898+03	64	space	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+264	2022-05-19 14:21:48.555473+03	73	spectra2	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+265	2022-05-19 14:24:17.288036+03	18	stukalov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+266	2022-05-19 14:44:52.951551+03	65	t9autoe	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+267	2022-05-19 14:48:03.771284+03	59	t9b3	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+268	2022-05-19 14:51:04.613005+03	96	t9b4	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+269	2022-05-19 14:52:39.394176+03	47	t9storage	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+270	2022-05-19 14:54:17.583917+03	56	t9test	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+271	2022-05-19 14:55:41.86327+03	92	tivanova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+272	2022-05-19 14:58:46.982317+03	32	tshikina	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+273	2022-05-19 14:59:58.661019+03	17	vinogradov	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+274	2022-05-19 15:01:13.251512+03	27	volkova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+275	2022-05-19 15:05:51.11278+03	50	yrazbitsky	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+276	2022-05-19 15:07:08.593863+03	61	yshleper	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+277	2022-05-19 15:09:04.197593+03	25	zubkova	2	[{"changed": {"fields": ["\\u041f\\u0440\\u043e\\u0446\\u0435\\u0441\\u0441\\u043e\\u0440", "\\u041e\\u0417\\u0423", "\\u041c\\u0430\\u0442\\u0435\\u0440\\u0438\\u043d\\u0441\\u043a\\u0430\\u044f \\u043f\\u043b\\u0430\\u0442\\u0430", "\\u041d\\u0430\\u043a\\u043e\\u043f\\u0438\\u0442\\u0435\\u043b\\u044c"]}}]	7	1
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	inventory	workstation
+8	inventory	account
+9	inventory	installed
+10	inventory	software
+11	inventory	certificate
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2022-04-08 10:33:32.465328+03
+2	auth	0001_initial	2022-04-08 10:33:33.090527+03
+3	admin	0001_initial	2022-04-08 10:33:33.181883+03
+4	admin	0002_logentry_remove_auto_add	2022-04-08 10:33:33.196802+03
+5	admin	0003_logentry_add_action_flag_choices	2022-04-08 10:33:33.212846+03
+6	contenttypes	0002_remove_content_type_name	2022-04-08 10:33:33.236615+03
+7	auth	0002_alter_permission_name_max_length	2022-04-08 10:33:33.245957+03
+8	auth	0003_alter_user_email_max_length	2022-04-08 10:33:33.266731+03
+9	auth	0004_alter_user_username_opts	2022-04-08 10:33:33.280521+03
+10	auth	0005_alter_user_last_login_null	2022-04-08 10:33:33.296339+03
+11	auth	0006_require_contenttypes_0002	2022-04-08 10:33:33.307046+03
+12	auth	0007_alter_validators_add_error_messages	2022-04-08 10:33:33.322694+03
+13	auth	0008_alter_user_username_max_length	2022-04-08 10:33:33.364486+03
+14	auth	0009_alter_user_last_name_max_length	2022-04-08 10:33:33.382091+03
+15	auth	0010_alter_group_name_max_length	2022-04-08 10:33:33.39995+03
+16	auth	0011_update_proxy_permissions	2022-04-08 10:33:33.421385+03
+17	auth	0012_alter_user_first_name_max_length	2022-04-08 10:33:33.444042+03
+18	sessions	0001_initial	2022-04-08 10:33:33.64045+03
+19	inventory	0001_initial	2022-04-08 12:52:13.827382+03
+20	inventory	0002_software_installed	2022-04-08 13:16:55.663104+03
+21	inventory	0003_alter_account_options_alter_installed_options_and_more	2022-04-08 15:47:45.853731+03
+22	inventory	0004_installed_workstation	2022-04-11 10:25:48.997916+03
+23	inventory	0005_remove_workstation_software_workstation_software	2022-04-11 11:38:24.44063+03
+24	inventory	0006_remove_workstation_software	2022-04-11 11:43:40.211206+03
+25	inventory	0007_alter_account_login_alter_workstation_hostname	2022-04-12 15:15:34.741466+03
+26	inventory	0008_alter_workstation_cpu_alter_workstation_motherboard_and_more	2022-04-12 15:31:27.877466+03
+27	inventory	0009_certificate_installed_cetrificate	2022-04-12 17:38:27.218491+03
+28	inventory	0010_rename_cetrificate_installed_certificate	2022-04-13 15:46:42.251388+03
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: webadmin
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+ve16cyd0u3vcxaiuo7gzo0t8iridcfdd	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1nclkR:WbYAqsVA40PcQkeER-BvwCgb8akcrLBN2jibC_T2ajQ	2022-04-22 13:21:47.264988+03
+q6l3depdni3wnfuai8r5d3ulgkqns5l6	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1ndnha:baW_XVAcAJXvB9UZP1NboFNM4GmQ0ffGfiWiAZW3oxo	2022-04-25 09:39:06.835396+03
+8alzdi1unrarj3upjfe72iqrln8xn7ip	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1ndoR2:puI15JKdqA7ZhO3Jlin72D3tRAfeCEfdIynWInMdkOw	2022-04-25 10:26:04.232412+03
+6e95onstuyo3yrdyg9c4p16l2pgzwvls	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1ndpoX:8cdEIlN3qxgEKHsB_Wt2tOk0zgjyDL5B54-wLs_kkTY	2022-04-25 11:54:25.209641+03
+asf7m2ytotdiiovl14zqgitnjx2gsl54	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1ndpxP:BqQWwfuTKI2_-DV-ftqbPKdlS8cBjoaLxu1mieohx90	2022-04-25 12:03:35.648982+03
+n1iiuq8zfdqlni1fqlm0p7eultjxuhlb	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1neEwr:UtQQMpylfR7qa2ndHfeLJFXEyG6fUPxzX_QqC2dx2hU	2022-04-26 14:44:41.019161+03
+9xvuzvqagp23puu5vzfn8esg1g57k16i	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1nixle:ER5Fzdj_mU26JQEXQZj_Vq_1-5Go4Jl25AlcolZ29Cc	2022-05-09 15:24:38.954321+03
+m9zv1gns84ilx1o79n1kihkuhhj0im4m	.eJxVjDkOwjAUBe_iGll2Em-U9Jwh-ptJANlSnFSIu0OkFNC-mXkvNcK2TuPWZBlnVmdl1el3Q6CHlB3wHcqtaqplXWbUu6IP2vS1sjwvh_t3MEGbvnWXh2x7ZHHigiSwGZk89BGjAXaOyaahR5MTmeQ8mI4C2pQoRhAJXr0_CGs4mw:1nogj4:Ar-MUKYwKV-vyhyp10LEe51eWCeuJj2GiVnpmqtfUEM	2022-05-25 10:25:38.380251+03
+\.
+
+
+--
+-- Name: Accounts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public."Accounts_id_seq"', 69, true);
+
+
+--
+-- Name: Certificate_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public."Certificate_id_seq"', 1, true);
+
+
+--
+-- Name: Installed_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public."Installed_id_seq"', 14, true);
+
+
+--
+-- Name: Software_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public."Software_id_seq"', 8, true);
+
+
+--
+-- Name: Workstations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public."Workstations_id_seq"', 100, true);
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 2, true);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 44, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, true);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 2, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 277, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 11, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: webadmin
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 28, true);
+
+
+--
+-- Name: Accounts Accounts_login_92f494de_uniq; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Accounts"
+    ADD CONSTRAINT "Accounts_login_92f494de_uniq" UNIQUE (login);
+
+
+--
+-- Name: Accounts Accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Accounts"
+    ADD CONSTRAINT "Accounts_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Certificate Certificate_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Certificate"
+    ADD CONSTRAINT "Certificate_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Installed Installed_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Installed"
+    ADD CONSTRAINT "Installed_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Software Software_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Software"
+    ADD CONSTRAINT "Software_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Workstations Workstations_hostname_a80deb25_uniq; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Workstations"
+    ADD CONSTRAINT "Workstations_hostname_a80deb25_uniq" UNIQUE (hostname);
+
+
+--
+-- Name: Workstations Workstations_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Workstations"
+    ADD CONSTRAINT "Workstations_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: Accounts_login_92f494de_like; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX "Accounts_login_92f494de_like" ON public."Accounts" USING btree (login varchar_pattern_ops);
+
+
+--
+-- Name: Installed_cetrificate_id_97d875ec; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX "Installed_cetrificate_id_97d875ec" ON public."Installed" USING btree (certificate_id);
+
+
+--
+-- Name: Installed_software_id_b538fc65; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX "Installed_software_id_b538fc65" ON public."Installed" USING btree (software_id);
+
+
+--
+-- Name: Installed_workstation_id_f40207ac; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX "Installed_workstation_id_f40207ac" ON public."Installed" USING btree (workstation_id);
+
+
+--
+-- Name: Workstations_hostname_a80deb25_like; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX "Workstations_hostname_a80deb25_like" ON public."Workstations" USING btree (hostname varchar_pattern_ops);
+
+
+--
+-- Name: Workstations_user_id_6961af92; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX "Workstations_user_id_6961af92" ON public."Workstations" USING btree (user_id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: webadmin
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: Installed Installed_certificate_id_1e0d939f_fk_Certificate_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Installed"
+    ADD CONSTRAINT "Installed_certificate_id_1e0d939f_fk_Certificate_id" FOREIGN KEY (certificate_id) REFERENCES public."Certificate"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Installed Installed_software_id_b538fc65_fk_Software_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Installed"
+    ADD CONSTRAINT "Installed_software_id_b538fc65_fk_Software_id" FOREIGN KEY (software_id) REFERENCES public."Software"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Installed Installed_workstation_id_f40207ac_fk_Workstations_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Installed"
+    ADD CONSTRAINT "Installed_workstation_id_f40207ac_fk_Workstations_id" FOREIGN KEY (workstation_id) REFERENCES public."Workstations"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: Workstations Workstations_user_id_6961af92_fk_Accounts_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public."Workstations"
+    ADD CONSTRAINT "Workstations_user_id_6961af92_fk_Accounts_id" FOREIGN KEY (user_id) REFERENCES public."Accounts"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: webadmin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

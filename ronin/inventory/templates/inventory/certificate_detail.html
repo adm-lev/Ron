@@ -3,10 +3,10 @@
 {% block content %}
 <p>Владелец: {{ certificate.owner }}</p>
 <p>Удостоверяющий центр:  {{ certificate.ver_center }}</p>
+<hr>
 <p>Дата выпуска: {{ certificate.release_date }}</p>
 <p>Дата окончания срока: {{ certificate.ending_date }}</p>
+<hr>
 <p>Отпечаток: {{ certificate.sign }}</p>
-
-
 
 {% endblock %}

@@ -20,14 +20,19 @@ from inventory import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-    re_path(r'^accounts/$', views.AccountListView.as_view(), name='accounts'),
+    re_path(r'^account/$', views.AccountListView.as_view(), name='account'),
     re_path(r'^workstations/$', views.WorkstationListView.as_view(), name='workstations'),
     re_path(r'^software/$', views.SoftwareListView.as_view(), name='software'),
     re_path(r'^installed/$', views.InstalledListView.as_view(), name='installed'),
     re_path(r'^certificate/$', views.CertificateListView.as_view(), name='certificate'),
-    re_path(r'accounts/(?P<pk>\d+)$', views.AccountDetailView.as_view(), name='account-detail'),
+    re_path(r'account/(?P<pk>\d+)$', views.AccountDetailView.as_view(), name='account-detail'),
     re_path(r'workstation/(?P<pk>\d+)$', views.WorkstationDetailView.as_view(), name='workstation-detail'),
     re_path(r'installed/(?P<pk>\d+)$', views.InstalledDetailView.as_view(), name='installed-detail'),
     re_path(r'software/(?P<pk>\d+)$', views.SoftwareDetailView.as_view(), name='software-detail'),
     re_path(r'certificate/(?P<pk>\d+)$', views.CertificateDetailView.as_view(), name='certificate-detail'),
+]
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+
 ]
